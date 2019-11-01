@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         tv.setText("" + scoreCount);
+                        showScore("" + scoreCount);
 
                     }
                 });
@@ -234,6 +235,43 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    public void showScore(String score) {
+
+        Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
+            @Override
+            public Object callApi(@NonNull ParticleCloud particleCloud) throws ParticleCloudException, IOException {
+                // put your logic here to talk to the particle
+                // --------------------------------------------
+                List<String> functionParameters = new ArrayList<String>();
+                functionParameters.add(score);
+                try {
+                    mDevice.callFunction("score", functionParameters);
+
+                } catch (ParticleDevice.FunctionDoesNotExistException e1) {
+                    e1.printStackTrace();
+                }
+
+
+                return -1;
+            }
+
+            @Override
+            public void onSuccess(Object o) {
+                // put your success message here
+                Log.d(TAG, "Success: Turned light green!!");
+            }
+
+            @Override
+            public void onFailure(ParticleCloudException exception) {
+                // put your error handling code here
+                Log.d(TAG, exception.getBestMessage());
+            }
+        });
+    }
+
+
+
     public void turnParticleRed() {
 
         Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
@@ -299,6 +337,9 @@ public class MainActivity extends AppCompatActivity {
                                 else if(choice.contentEquals("true")) {
                                     nextQue();
                                     Log.d(TAG, "I am in true condition");
+                                }
+                                else if(choice.contentEquals("C")){
+                                    showScore(""+ scoreCount);
                                 }
 
                             }
