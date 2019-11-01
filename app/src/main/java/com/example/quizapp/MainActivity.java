@@ -4,8 +4,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tv,tv1;
     ImageView img;
-//    int[] intArray = new int[]{ 1,2,3,4,5,6,7,8,9,10 };
+    Button btn;
     String[] Key = new String[] {"A","B"};
 
     // MARK: Particle Account Info
@@ -50,12 +53,31 @@ public class MainActivity extends AppCompatActivity {
         tv = findViewById(R.id.result);
         tv1 = findViewById(R.id.textView);
         img = findViewById(R.id.imageView);
+        btn = findViewById(R.id.score);
 
         // 1. Initialize your connection to the Particle API
         ParticleCloudSDK.init(this.getApplicationContext());
 
         // 2. Setup your device variable
         getDeviceFromCloud();
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                runOnUiThread(new Runnable() {
+
+
+
+                    @Override
+                    public void run() {
+                        tv.setText("" + scoreCount);
+
+                    }
+                });
+
+
+            }
+        });
 
     }
 
@@ -94,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     int i = 0;
+    int j = 1;
+    int k = 1;
+    int scoreCount = 0;
     public void result(String answer){
         runOnUiThread(new Runnable() {
 
@@ -102,26 +127,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-
+                try{
                     if (answer.equals(Key[i])){
                         tv.setText("Correct");
 
                         if (Key[1].equals(Key[i])){
                             turnParticleGreen("circle");
+
+
+                            if (j == 1) {
+                                scoreCount = scoreCount + 1;
+                                j++;
+                            }
+
                         }
-                        if (Key[0].equals(Key[i])){
+                        else if (Key[0].equals(Key[i])){
                             turnParticleGreen("triangle");
+
+                            if (k == 1) {
+                                scoreCount = scoreCount + 1;
+                                k++;
+                            }
                         }
+
 
                     }
                     else {
                         tv.setText("Wrong");
                         turnParticleRed();
                     }
-
-
-
-
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -149,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     tv.setText("Answer");
 
                 }else{
+                    i++;
                     img.setImageResource(R.drawable.coder);
                     tv1.setText("Quiz Finished");
                     tv.setText("");
