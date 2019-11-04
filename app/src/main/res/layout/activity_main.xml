@@ -16,9 +16,9 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="325dp"
         android:text="How many Sides 3 or 4? \n A. 3 \n B. 4\n\nEnter your response using the Particle.\n\n(A = Button 3, B = Button 4)"
-        android:textSize="40sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/result"
@@ -31,5 +31,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Score" />
+
+    <Button
+        android:id="@+id/drawButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Draw Shapes" />
 
 </LinearLayout>

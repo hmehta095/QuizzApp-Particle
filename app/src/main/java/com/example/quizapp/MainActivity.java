@@ -1,5 +1,6 @@
 package com.example.quizapp;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tv,tv1;
     ImageView img;
-    Button btn;
+    Button btn, drawBtn;
     String[] Key = new String[] {"A","B"};
 
     // MARK: Particle Account Info
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        drawBtn = findViewById(R.id.drawButton);
         tv = findViewById(R.id.result);
         tv1 = findViewById(R.id.textView);
         img = findViewById(R.id.imageView);
@@ -80,7 +81,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        drawBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),Main2Activity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
 
     /**
